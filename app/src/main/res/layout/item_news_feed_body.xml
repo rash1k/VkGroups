@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    tools:parentTag="android.widget.RelativeLayout">
+
+
+    <TextView
+        android:id="@+id/textViewTextBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/civ_profile_image"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:lines="2"
+        android:maxLines="2"
+        android:textColor="@color/colorAccent"
+        tools:text="@tools:sample/lorem"/>
+
+    <ImageView
+        android:id="@+id/imageViewBody"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_below="@id/textViewTextBody"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="4dp"
+        tools:src="@tools:sample/avatars"/>
+
+    <TextView
+        android:id="@+id/tv_signed_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewBody"
+        android:lines="1"
+        android:layout_marginTop="4dp"
+        android:text="@string/font_signed"
+        android:textColor="@color/colorIcon"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/textViewFullNameSigner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewBody"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toEndOf="@id/tv_signed_icon"
+        android:layout_toRightOf="@id/tv_signed_icon"
+        tools:text="@tools:sample/full_names"/>
+
+    <!--android:layout_below="@id/imageViewBody"-->
+</merge>

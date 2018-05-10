@@ -1,0 +1,119 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "ua.rash1k.vkgroups"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            crunchPngs false
+        }
+    }
+    flavorDimensions "tier"
+    productFlavors {
+
+        prod {
+            // If you've configured the defaultConfig block for the release version of
+            // your app, you can leave this block empty and Gradle uses configurations in
+            // the defaultConfig block instead. You still need to create this flavor.
+            // Otherwise, all variants use the "dev" flavor configurations.
+            dimension "tier"
+        }
+    }
+
+
+    kapt {
+        generateStubs = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    androidExtensions {
+        experimental = true
+    }
+    realm {
+        syncEnabled = true
+    }
+
+}
+dependencies {
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation "com.android.support:support-v4:$versions_supportLib"
+    implementation "com.android.support:support-annotations:$versions_supportLib"
+
+    //Navigation Drawer Mike Penz
+    implementation("com.mikepenz:materialdrawer:6.0.7@aar") {
+        transitive = true
+    }
+    implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
+
+    //Design
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+
+    //Retrofit  //Gson-converter
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //Для того чтобы Retrofit преобразовывал наш запрос не в Call, а в Observable
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+
+    //RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
+
+    //VK SDK
+    implementation 'com.vk:androidsdk:1.6.7'
+
+    //Dagger 2
+    implementation 'com.google.dagger:dagger-android:2.15'
+    implementation 'com.google.dagger:dagger-android-support:2.15'
+
+    // if you use the support libraries
+//    annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
+    kapt 'com.google.dagger:dagger-android-processor:2.15'
+
+    //Kapt For compiler Annotation
+    kapt 'com.google.dagger:dagger-compiler:2.15'
+
+    //    annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
+
+    //Circle ImageView
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    //Glide for download image
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+
+    //Moxy
+    implementation 'com.arello-mobile:moxy:1.5.3'
+    //For additional base view classes MvpActivity and MvpFragment add this:
+    implementation 'com.arello-mobile:moxy-android:1.5.3'
+    //If you are planning to use AppCompat, then you can use MvpAppCompatActivity and MvpAppCompatFragment
+    implementation 'com.arello-mobile:moxy-app-compat:1.5.3'
+    //If you are using kotlin, use kapt instead of provided/apt dependency type and set generateStubs property of kapt to true:
+    kapt 'com.arello-mobile:moxy-compiler:1.5.3'
+
+    //Test SDK
+    //    testImplementation 'junit:junit:4.12'
+    //    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}

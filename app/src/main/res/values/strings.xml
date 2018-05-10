@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name" translatable="false">VKGroups</string>
+
+
+    <!--Other-->
+    <string name="current_user_id" translatable="false">Current user id: </string>
+
+
+    <!--Icons fonts for counting. Icon for likes-->
+    <string name="font_heart" translatable="false">&#xE87D;</string>
+    <string name="font_comment" translatable="false">&#xE0B9;</string>
+    <string name="font_repost" translatable="false">&#xE050;</string>
+
+    <!--Icons fonts for Signed-->
+    <string name="font_signed" translatable="false">&#xE7FD;</string>
+
+    <!--VK App Id-->
+    <integer name="com_vk_sdk_AppId">6269600</integer>
+    <!--<integer name="com_vk_sdk_AppId">6142332</integer>-->
+
+
+    <!--Items Navigation Drawer-->
+    <string name="screen_name_news_feed_title">News</string>
+    <string name="screen_name_my_posts">My Posts</string>
+    <string name="screen_name_settings">Settings</string>
+    <string name="screen_name_members">Members</string>
+    <string name="screen_name_topics">Topics</string>
+    <string name="screen_name_info">Info</string>
+    <string name="screen_name_rules">Group Rules</string>
+    <string name="screen_name_image">Image</string>
+    <string name="screen_name_opened_post">Post</string>
+    <string name="screen_name_comments">Comments</string>
+    <string name="screen_name_opened_comment">Comment</string>
+    <string name="current_logout">Logout</string>
+
+
+    <!--Strings time posts-->
+    <string name="today">Сегодня в %s</string>
+    <string name="justNow">Только что</string>
+    <string name="one_minutes_ago">минуту назад</string>
+    <string name="two_minutes_ago">две минуты</string>
+    <string name="three_minutes_ago">три минуты</string>
+    <string name="number_of_minutes">%1$d минуты</string>
+    <string name="hour_ago">час назад</string>
+    <string name="two_hour_ago">два часа назад</string>
+    <string name="three_hour_ago">три часа назад</string>
+    <string name="up_to_day">сегодня в "%tH:%tM</string>
+    <string name="yesterday">вчера в "%tH:%tM</string>
+    <string name="fullDate">"%td %tb в %tk:%tM</string>
+
+
+    <!--Strings Item Status-->
+    <string name="tv_status">Статус</string>
+    <string name="tv_description">Описание</string>
+    <string name="tv_web_site">Веб сайт</string>
+    <string name="tv_contacts">Контакты</string>
+    <string name="tv_links">Ссылки</string>
+
+
+    <!--Attachments string-->
+    <string name="tv_views_count">%s просмотров</string>
+
+    <!--Plurals Time-->
+    <plurals name="time_plurals">
+        <item quantity="zero">Только что</item>
+        <item quantity="one">%1$d минута</item>
+        <item quantity="two">%1$d минуты</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минут назад</item>
+        <item quantity="other">%1$d минут</item>
+    </plurals>
+</resources>

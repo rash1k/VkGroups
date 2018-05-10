@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:padding="8dp"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.RelativeLayout">
+
+
+    <TextView
+        android:id="@+id/tv_comments_icon"
+        android:layout_below="@id/dividerTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:text="@string/font_comment"
+        android:textColor="@color/colorIcon"
+        android:textSize="14sp"/>
+
+
+    <TextView
+        android:id="@+id/tv_comments_count"
+        android:layout_toRightOf="@id/tv_comments_icon"
+        android:layout_below="@id/dividerTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:layout_marginLeft="4dp"
+        android:text="@string/font_repost"
+        android:textColor="#909090"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@id/tv_comments_icon"
+        tools:text="1355"/>
+
+
+    <TextView
+        android:id="@+id/tv_reposts_icon"
+        android:layout_toRightOf="@id/tv_comments_count"
+        android:layout_marginLeft="@dimen/margin_material_design"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:lines="1"
+        android:text="@string/font_repost"
+        android:textColor="@color/colorIcon"
+        android:textSize="14sp"
+        android:layout_below="@id/dividerTop"
+        android:layout_marginStart="@dimen/margin_material_design"
+        android:layout_toEndOf="@id/tv_comments_count"/>
+
+
+    <TextView
+        android:id="@+id/tv_reposts_count"
+        android:layout_below="@id/dividerTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tv_reposts_icon"
+        android:layout_toRightOf="@id/tv_reposts_icon"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textColor="#909090"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        tools:text="12"/>
+
+
+    <TextView
+        android:id="@+id/tv_likes_icon"
+        android:layout_toRightOf="@id/tv_reposts_count"
+        android:layout_marginLeft="@dimen/margin_material_design"
+        android:layout_below="@id/dividerTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:lines="1"
+        android:text="@string/font_heart"
+        android:textColor="@color/colorIcon"
+        android:textSize="14sp"
+        android:layout_marginStart="@dimen/margin_material_design"
+        android:layout_toEndOf="@id/tv_reposts_count"/>
+
+
+    <TextView
+        android:id="@+id/tv_likes_count"
+        android:layout_below="@id/dividerTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tv_likes_icon"
+        android:layout_toRightOf="@id/tv_likes_icon"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textColor="#909090"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        tools:text="1355"/>
+
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_below="@id/dividerTop"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:textColor="#909090"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        tools:text="Date"/>
+</merge>
