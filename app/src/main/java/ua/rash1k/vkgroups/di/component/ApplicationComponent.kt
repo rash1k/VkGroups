@@ -5,6 +5,7 @@ import ua.rash1k.vkgroups.common.manager.NetworkManager
 import ua.rash1k.vkgroups.di.module.AppModule
 import ua.rash1k.vkgroups.di.module.ManagerModule
 import ua.rash1k.vkgroups.di.module.RestModule
+import ua.rash1k.vkgroups.fcm.services.MyFirebaseMessagingService
 import ua.rash1k.vkgroups.models.view.*
 import ua.rash1k.vkgroups.mvp.presenter.*
 import ua.rash1k.vkgroups.ui.activity.BaseActivity
@@ -45,6 +46,8 @@ interface ApplicationComponent {
 
     fun inject(openedCommentFragment: OpenedCommentFragment)
 
+    fun inject(topicCommentsFragment: TopicCommentsFragment)
+
 
 
     //holders
@@ -60,11 +63,13 @@ interface ApplicationComponent {
 
     fun inject(viewHolder: CommentFooterViewModel.CommentFooterHolder)
 
-    fun inject(viewHolder: OpenedPostHeaderViewModel.OpenedPostViewHolder)
+    fun inject(viewHolder: OpenedPostHeaderViewModel.OpenedPostHeaderHolder)
 
     fun inject(viewHolder: OpenedPostRepostHeaderViewModel.OpenedPostRepostViewHolder)
 
     fun inject(viewHolder: CommentBodyViewModel.CommentBodyViewHolder)
+
+    fun inject(viewHolder: TopicViewModel.TopicViewHolder)
 
     //presenter
     fun inject(newsFeedPresenter: NewsFeedPresenter)
@@ -85,7 +90,19 @@ interface ApplicationComponent {
 
     fun inject(presenter: OpenedCommentPresenter)
 
+    fun inject(presenter: TopicCommentsPresenter)
+
+    fun inject(presenter: InfoLinksPresenter)
+
+    fun inject(presenter: InfoContactsPresenter)
+
+    fun inject(presenter: GroupsPresenter)
+
+
     //NetworkManager
     fun inject(networkManager: NetworkManager)
+
+    //Services
+    fun inject(service: MyFirebaseMessagingService)
 
 }

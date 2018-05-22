@@ -40,7 +40,7 @@ abstract class BaseFeedPresenter<V : BaseFeedView> : MvpPresenter<V>() {
 
                     when {
                         !aBoolean && offset > 0 -> Observable.empty<Boolean>()
-                        aBoolean -> onCreateLoadDataObservable(count, offset)
+                        aBoolean -> onCreateLoadDataObservable(count = count, offset = offset)
                         else -> onCreateRestoreDataObservable()
                     }
                 }
@@ -56,6 +56,7 @@ abstract class BaseFeedPresenter<V : BaseFeedView> : MvpPresenter<V>() {
                     error.printStackTrace()
                     onLoadingFailed(error)
                 })
+
     }
 
     //Метод для создания Observable, который излучает данные взятые из сети
@@ -73,7 +74,8 @@ abstract class BaseFeedPresenter<V : BaseFeedView> : MvpPresenter<V>() {
         when (progressType) {
             ListProgress -> viewState.showListProgress()
             Refreshing -> viewState.showRefreshing()
-            else -> { }
+            else -> {
+            }
         }
     }
 
@@ -93,7 +95,7 @@ abstract class BaseFeedPresenter<V : BaseFeedView> : MvpPresenter<V>() {
 
     //Вызывается при загрузке новых элементов при прокрутки
     fun loadNext(offset: Int) {
-        loadData(Paging, offset, NEXT_PAGE_SIZE)
+        loadData(Paging, offset = offset, count = NEXT_PAGE_SIZE)
     }
 
     //При обновлении списка

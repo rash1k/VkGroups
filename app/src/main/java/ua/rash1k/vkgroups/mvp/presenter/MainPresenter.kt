@@ -1,6 +1,7 @@
 package ua.rash1k.vkgroups.mvp.presenter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.Observable
@@ -12,10 +13,14 @@ import ua.rash1k.vkgroups.CurrentUser
 import ua.rash1k.vkgroups.MyApplication
 import ua.rash1k.vkgroups.common.manager.MyFragmentManager
 import ua.rash1k.vkgroups.common.manager.NetworkManager
+import ua.rash1k.vkgroups.common.utils.saveIdToInternalDir
 import ua.rash1k.vkgroups.models.Profile
 import ua.rash1k.vkgroups.mvp.view.MainView
+import ua.rash1k.vkgroups.rest.api.AccountApi
 import ua.rash1k.vkgroups.rest.api.UsersApi
+import ua.rash1k.vkgroups.rest.model.request.AccountRegisterDeviceRequest
 import ua.rash1k.vkgroups.rest.model.request.UsersGetRequestModel
+import ua.rash1k.vkgroups.ui.activity.SettingActivity
 import ua.rash1k.vkgroups.ui.fragment.*
 import java.util.concurrent.Callable
 import javax.inject.Inject
@@ -35,6 +40,9 @@ class MainPresenter : MvpPresenter<MainView>() {
     @Inject
     lateinit var mNetworkManager: NetworkManager
 
+    @Inject
+    lateinit var mAccountApi: AccountApi
+
     init {
         MyApplication.sApplicationComponent.inject(this)
     }
@@ -46,6 +54,17 @@ class MainPresenter : MvpPresenter<MainView>() {
             getCurrentUser()
             viewState.signedIn()
         }
+    }
+
+    fun registerDeviceToVkServer(context: Context) {
+        //Регистрируем устройство на серевере VK для получения PUSH-уведомлений
+        val deviceId = saveIdToInternalDir(context)
+
+        mAccountApi.registerDevice(AccountRegisterDeviceRequest(deviceId = deviceId)
+                .toMap())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
     }
 
     //Получаем данные профиля пользователя
@@ -102,11 +121,13 @@ class MainPresenter : MvpPresenter<MainView>() {
 
         when (id) {
             1 -> fragment = NewsFeedFragment()
-//            1 -> fragment = NewsFragment()
+//          1 -> fragment = NewsFragment()
             2 -> fragment = MyPostFragment()
-            4 -> fragment = MemberFragment()
-            5 -> fragment = TopicFragment()
-            6 -> fragment = InfoFragment()
+            3 -> viewState.startActivityFromDrawer(SettingActivity::class.java)
+//            4 -> fragment = GroupsFragment()
+            5 -> fragment = MemberFragment()
+            6 -> fragment = TopicFragment()
+            7 -> fragment = InfoFragment()
         }
 
         if (fragment != null && !myFragmentManager.isAlreadyContains(fragment)) {

@@ -35,12 +35,8 @@ class NewsItemBodyHolder(itemView: View) : BaseViewHolder<NewsItemBodyViewModel>
     }
 
     override fun bindViewHolder(itemModel: NewsItemBodyViewModel) {
-
         uiHelper.setUpTextViewWithVisibility(mTextViewBody, itemModel.text)
-        uiHelper.setUpTextViewWithVisibility(mTextViewAttachments, itemModel.text)
-
-        mTextViewBody.text = itemModel.text
-        mTextViewAttachments.text = itemModel.mAttachmentString
+        uiHelper.setUpTextViewWithVisibility(mTextViewAttachments, itemModel.mAttachmentString)
 
 
         itemView.setOnClickListener {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/root_view"
                 android:layout_width="match_parent"
@@ -11,8 +12,8 @@
         android:id="@+id/civ_profile_image"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginStart="@dimen/margin_material_design"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="@dimen/margin_material_design"
         tools:src="@color/colorAccent"/>
 
     <TextView
@@ -20,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/margin_material_design"
         android:layout_marginLeft="@dimen/margin_material_design"
+        android:layout_marginStart="@dimen/margin_material_design"
         android:layout_toEndOf="@id/civ_profile_image"
         android:layout_toRightOf="@id/civ_profile_image"
         android:lines="1"
@@ -35,21 +36,21 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
         android:layout_toEndOf="@id/tv_profile_name"
         android:layout_toRightOf="@id/tv_profile_name"
-        android:src="@drawable/ic_arrow_back_black_24dp"
-        android:tint="@color/colorIcon"/>
+        android:tint="@color/colorIcon"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
 
     <TextView
         android:id="@+id/tv_reposted_profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/margin_material_design"
         android:layout_marginLeft="@dimen/margin_material_design"
+        android:layout_marginStart="@dimen/margin_material_design"
         android:layout_toEndOf="@id/iv_reposted_icon"
         android:layout_toRightOf="@id/iv_reposted_icon"
         android:ellipsize="end"

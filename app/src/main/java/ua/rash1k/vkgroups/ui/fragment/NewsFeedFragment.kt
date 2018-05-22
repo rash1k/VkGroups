@@ -2,18 +2,21 @@ package ua.rash1k.vkgroups.ui.fragment
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import com.arellomobile.mvp.presenter.InjectPresenter
+import kotlinx.android.synthetic.main.activity_base.*
 import ua.rash1k.vkgroups.MyApplication
 import ua.rash1k.vkgroups.R
 import ua.rash1k.vkgroups.mvp.presenter.BaseFeedPresenter
 import ua.rash1k.vkgroups.mvp.presenter.NewsFeedPresenter
 import ua.rash1k.vkgroups.mvp.view.BaseFeedView
+import ua.rash1k.vkgroups.ui.activity.CreatePostActivity
 
 
 open class NewsFeedFragment : BaseFeedFragment() {
 
-    private val TAG = NewsFeedFragment::class.java.name
+//     val TAG = NewsFeedFragment::class.java.name
 
 
     @InjectPresenter
@@ -29,40 +32,40 @@ open class NewsFeedFragment : BaseFeedFragment() {
         super.onActivityCreated(savedInstanceState)
 
 //region
-       /* //У Observable можем вызывать методы которые преобразуют Observable
-        //flatMap принимает данные одним Observable и возвращает данные другим
-        mWallApi.get(WallGetRequestModel(ownerId = -86529522).toMap())
-                .flatMap { response: GetWallResponse ->
-                    io.reactivex.Observable.fromIterable<WallItem?>(
-                            //Здесь преобразуем данные с getWallResponse на WallItem
-                            getWallList(response.response!!))
-                }
-                .flatMap { wallItem: WallItem ->
-                    val baseItems = ArrayList<BaseViewModel>()
+        /* //У Observable можем вызывать методы которые преобразуют Observable
+         //flatMap принимает данные одним Observable и возвращает данные другим
+         mWallApi.get(WallGetRequestModel(ownerId = -86529522).toMap())
+                 .flatMap { response: GetWallResponse ->
+                     io.reactivex.Observable.fromIterable<WallItem?>(
+                             //Здесь преобразуем данные с getWallResponse на WallItem
+                             getWallList(response.response!!))
+                 }
+                 .flatMap { wallItem: WallItem ->
+                     val baseItems = ArrayList<BaseViewModel>()
 
-                    baseItems.add(NewsItemHeaderViewModel(wallItem))
-                    baseItems.add(NewsItemBodyViewModel(wallItem))
-                    baseItems.add(NewsItemFooterViewModel(wallItem))
-                    io.reactivex.Observable.fromIterable(baseItems)
+                     baseItems.add(NewsItemHeaderViewModel(wallItem))
+                     baseItems.add(NewsItemBodyViewModel(wallItem))
+                     baseItems.add(NewsItemFooterViewModel(wallItem))
+                     io.reactivex.Observable.fromIterable(baseItems)
 
-                }
-                //Оператор toList преобразует все элементы излучаемые Rx-цепочкой в Observable
-                //которыый излучает список из этих элементов
-                //В нашем случае Rx-цепочка передает в него Observable с параметром BaseViewModel
-                //А возвращает он List<BaseViewModel> список
-                //Делается это чтобы добавлять объеты в BaseAdapter порционно(На каждую загрузку новый список)
-                .toList()
-                //Указывает поток в котором будет выполняться процесс Observable
-                //В нашем случае все преобразования данных
-                .subscribeOn(Schedulers.io())
-                //Указывает поток в котором будет выполняться все последущие операции над излученными данными
-                //Переданными в этот метод. Так-как мы вызываем этот метод перед .subscribe()(подпиской)
-                //В этом потоке выполняется только добавление объектов BaseViewModel в BaseAdapter и
-                //оповещение адаптера так его оповещение затрагивает UI-поток
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(Consumer<List<BaseViewModel>> { listBaseItem ->
-                    mBaseAdapter.addItems(listBaseItem)
-                })*/
+                 }
+                 //Оператор toList преобразует все элементы излучаемые Rx-цепочкой в Observable
+                 //которыый излучает список из этих элементов
+                 //В нашем случае Rx-цепочка передает в него Observable с параметром BaseViewModel
+                 //А возвращает он List<BaseViewModel> список
+                 //Делается это чтобы добавлять объеты в BaseAdapter порционно(На каждую загрузку новый список)
+                 .toList()
+                 //Указывает поток в котором будет выполняться процесс Observable
+                 //В нашем случае все преобразования данных
+                 .subscribeOn(Schedulers.io())
+                 //Указывает поток в котором будет выполняться все последущие операции над излученными данными
+                 //Переданными в этот метод. Так-как мы вызываем этот метод перед .subscribe()(подпиской)
+                 //В этом потоке выполняется только добавление объектов BaseViewModel в BaseAdapter и
+                 //оповещение адаптера так его оповещение затрагивает UI-поток
+                 .observeOn(AndroidSchedulers.mainThread())
+                 .subscribe(Consumer<List<BaseViewModel>> { listBaseItem ->
+                     mBaseAdapter.addItems(listBaseItem)
+                 })*/
 //endregion
         //-86529522
         //region
@@ -121,6 +124,25 @@ open class NewsFeedFragment : BaseFeedFragment() {
 
     override fun onCreateFeedPresenter(): BaseFeedPresenter<BaseFeedView> {
         return mPresenter
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        getBaseActivity().fab.setOnClickListener {
+            val postActivityIntent = Intent(getBaseActivity(), CreatePostActivity::class.java)
+            getBaseActivity().startActivityForResult(postActivityIntent, 0)
+        }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        getBaseActivity().fab.setOnClickListener(null)
+    }
+
+    override fun needFab(): Boolean {
+        return true
     }
 
     @Override

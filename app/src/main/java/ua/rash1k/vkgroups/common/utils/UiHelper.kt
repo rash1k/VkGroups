@@ -8,15 +8,12 @@ import ua.rash1k.vkgroups.R
 class UiHelper {
 
     fun setUpTextViewWithVisibility(textView: TextView, str: String) {
-        textView.text = str
-        if (str.isEmpty()) {
-//            textView.text = str
-            textView.visibility = View.GONE
-        } else {
-//            textView.text = str
+        if (str.isNotEmpty()) {
             textView.visibility = View.VISIBLE
-
+        } else {
+            textView.visibility = View.GONE
         }
+        textView.text = str
     }
 
     fun setUpTextViewWithMessage(textView: TextView, message: String) {

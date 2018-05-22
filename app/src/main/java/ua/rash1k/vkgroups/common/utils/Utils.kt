@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Parcelable
+import android.provider.Settings
 import android.support.annotation.IdRes
 import android.text.format.DateUtils
 import android.view.LayoutInflater
@@ -14,6 +15,9 @@ import android.widget.Toast
 import com.vk.sdk.api.model.VKAttachments
 import ua.rash1k.vkgroups.R
 import ua.rash1k.vkgroups.models.attachment.ApiAttachment
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStreamReader
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -80,12 +84,11 @@ fun convertAttachmentsToFontIcons(attachments: List<ApiAttachment>): String {
 //    return attachmentsString
 //}
 
-fun formatDate(date: Long, context: Context): String {
+fun formatDate(initialDate: Long, context: Context): String {
 
     val currentLocale: Locale = context.resources.configuration.locale
 
-    val currentDate: Date = Date(date * 1000)
-//    val currentDate: Date = Date(date)
+    val currentDate: Date = Date(initialDate * 1000)
 
     val callendar = Calendar.getInstance()
     callendar.time = currentDate
@@ -105,7 +108,7 @@ fun formatDate(date: Long, context: Context): String {
 //            simpleDateFormat.applyLocalizedPattern("d MMM 'in' H:mm")
     }
 
-    return simpleDateFormat.format(date)
+    return simpleDateFormat.format(currentDate)
 }
 
 
@@ -276,10 +279,36 @@ fun splitStringForIdAndOwnerId(str: String): List<String> {
             .split(" ")
 }
 
+//@SuppressLint("HardwareIds")
+fun getDeviceId(context: Context): String {
+    return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+//    return UUID.randomUUID().toString()
+}
 
 
+fun saveIdToInternalDir(context: Context): String {
+    val id = UUID.randomUUID().toString()
+    val fileName = "id.txt"
+    File(context.filesDir, fileName)
+    //запись id
+    context.openFileOutput(fileName, Context.MODE_PRIVATE)
+            .use { it.write(id.toByteArray()) }
+    return id
+}
 
+fun getIdFromInternalDir(context: Context): String {
+    val fileName = "id.txt"
+    val fin = context.openFileInput(fileName)
+    val bufReader = BufferedReader(InputStreamReader(fin))
+    return buildString {
 
+        bufReader.use {
+            for ((index, char) in it.readLine().withIndex()) {
+                append(char)
+            }
+        }
+    }
+}
 
 
 

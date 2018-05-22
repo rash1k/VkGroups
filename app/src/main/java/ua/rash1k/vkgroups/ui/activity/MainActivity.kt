@@ -22,20 +22,21 @@ import com.vk.sdk.VKSdk
 import com.vk.sdk.api.VKError
 import ua.rash1k.vkgroups.MyApplication
 import ua.rash1k.vkgroups.R
-import ua.rash1k.vkgroups.R.id.toolbar
 import ua.rash1k.vkgroups.common.utils.toast
 import ua.rash1k.vkgroups.consts.ApiConstants
 import ua.rash1k.vkgroups.models.Profile
 import ua.rash1k.vkgroups.mvp.presenter.MainPresenter
 import ua.rash1k.vkgroups.mvp.view.MainView
+import ua.rash1k.vkgroups.rest.api.AccountApi
 import ua.rash1k.vkgroups.ui.fragment.BaseFragment
 import ua.rash1k.vkgroups.ui.fragment.NewsFeedFragment
+import javax.inject.Inject
 
 
 class MainActivity : BaseActivity(), MainView {
 
-    val TAG = MainActivity::class.java.name
 
+    override val TAG = MainActivity::class.java.name
 
     private lateinit var mDrawer: Drawer
     private lateinit var mAccountHeader: AccountHeader
@@ -44,13 +45,19 @@ class MainActivity : BaseActivity(), MainView {
     @InjectPresenter
     lateinit var mMainPresenter: MainPresenter
 
+    @Inject
+    lateinit var mAccountApi: AccountApi
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //Вызывает метод суперкласса BaseActivity
+        MyApplication.sApplicationComponent.inject(this)
         super.onCreate(savedInstanceState)
 
-        MyApplication.sApplicationComponent.inject(this)
 
         mMainPresenter.checkAuth()
+
+
     }
 
     override fun startSignedIn() {
@@ -58,10 +65,24 @@ class MainActivity : BaseActivity(), MainView {
     }
 
     override fun signedIn() {
-        setUpDrawer()
-
         setRootContent(NewsFeedFragment())
 //        setRootContent(NewsFragment())
+//        setRootContent(GroupsFragment())
+        setUpDrawer()
+
+        /* //Регистрируем устройство на серевере VK для получения PUSH-уведомлений
+         mAccountApi.registerDevice(AccountRegisterDeviceRequest(deviceId = getDeviceId(this))
+                 .toMap())
+                 .subscribeOn(Schedulers.io())
+                 .observeOn(AndroidSchedulers.mainThread())
+                 .subscribe()*/
+        mMainPresenter.registerDeviceToVkServer(this)
+
+    }
+
+
+    override fun startActivityFromDrawer(act: Class<*>) {
+        startActivity(Intent(this, act))
     }
 
     private fun setUpDrawer() {
@@ -72,20 +93,25 @@ class MainActivity : BaseActivity(), MainView {
                 .withName(R.string.screen_name_my_posts).withIcon(GoogleMaterial.Icon.gmd_list)
         val item3 = PrimaryDrawerItem().withIdentifier(3)
                 .withName(R.string.screen_name_settings).withIcon(GoogleMaterial.Icon.gmd_settings)
+
         val item4 = PrimaryDrawerItem().withIdentifier(4)
-                .withName(R.string.screen_name_members).withIcon(GoogleMaterial.Icon.gmd_people)
+                .withName(R.string.screen_name_list_of_groups)
+                .withIcon(GoogleMaterial.Icon.gmd_people_outline)
+
         val item5 = PrimaryDrawerItem().withIdentifier(5)
-                .withName(R.string.screen_name_topics).withIcon(GoogleMaterial.Icon.gmd_record_voice_over)
+                .withName(R.string.screen_name_members).withIcon(GoogleMaterial.Icon.gmd_people)
         val item6 = PrimaryDrawerItem().withIdentifier(6)
-                .withName(R.string.screen_name_info).withIcon(GoogleMaterial.Icon.gmd_info)
+                .withName(R.string.screen_name_topics).withIcon(GoogleMaterial.Icon.gmd_record_voice_over)
         val item7 = PrimaryDrawerItem().withIdentifier(7)
+                .withName(R.string.screen_name_info).withIcon(GoogleMaterial.Icon.gmd_info)
+        val item8 = PrimaryDrawerItem().withIdentifier(8)
                 .withName(R.string.screen_name_rules).withIcon(GoogleMaterial.Icon.gmd_assignment)
 
         mAccountHeader = AccountHeaderBuilder()
                 .withActivity(this)
                 .build()
 
-        val mToolbar: Toolbar = findViewById(toolbar)
+        val mToolbar: Toolbar = findViewById(R.id.toolbar)
 
         mDrawer = DrawerBuilder()
                 .withActivity(this)
@@ -94,7 +120,7 @@ class MainActivity : BaseActivity(), MainView {
                 .withActionBarDrawerToggle(true)//If true добавляет иконку в Toolbar
                 .withAccountHeader(mAccountHeader)
                 .addDrawerItems(item1, item2, item3, SectionDrawerItem().withName("Groups"),
-                        item4, item5, item6, item7)
+                        item4, item5, item6, item7, item8)
 
                 .withOnDrawerItemClickListener { view, position,
                                                  drawerItem ->

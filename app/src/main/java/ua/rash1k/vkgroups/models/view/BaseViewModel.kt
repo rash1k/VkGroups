@@ -38,6 +38,7 @@ abstract class BaseViewModel {
         Member(R.layout.item_member),
         Topic(R.layout.item_topic),
         NewsFeed(R.layout.item_news_feed),
+        Groups(R.layout.item_groups),
 
         InfoStatus(R.layout.item_info_status),
         InfoContacts(R.layout.item_info_contacts),
@@ -57,7 +58,9 @@ abstract class BaseViewModel {
 
         CommentHeader(R.layout.item_comment_header),
         CommentBody(R.layout.item_comment_body),
-        CommentFooter(R.layout.item_comment_footer);
+        CommentFooter(R.layout.item_comment_footer),
+
+        CreatePostText(R.layout.item_create_post_text);
     }
 
     open fun isItemDecoration(): Boolean = false

@@ -105,7 +105,8 @@ class MyFragmentManager {
     internal fun isAlreadyContains(baseFragment: BaseFragment?): Boolean {
         if (baseFragment == null) return false
 
-        return mCurrentFragment != null && mCurrentFragment?.javaClass?.name == baseFragment.javaClass.name
+        return mCurrentFragment != null &&
+                mCurrentFragment?.javaClass?.name == baseFragment.javaClass.name
     }
 
     private fun isActivityAndFragmentNonNull(baseActivity: BaseActivity?,

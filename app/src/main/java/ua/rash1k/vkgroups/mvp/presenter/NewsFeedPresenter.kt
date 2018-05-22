@@ -36,7 +36,7 @@ open class NewsFeedPresenter : BaseFeedPresenter<BaseFeedView>() {
     //Проверяет условие что фильтр включен и ID текущего пользователя не null
     //И если условие соблюдается возвращает по ID Observable
     //Или неизменынный Obsevable если false
-    protected fun applyFiltering(): ObservableTransformer<WallItem, WallItem> {
+    open fun applyFiltering(): ObservableTransformer<WallItem, WallItem> {
         return if (enableIdFiltering && CurrentUser.getUserId() != null) {
             ObservableTransformer { baseItemObservable ->
                 baseItemObservable.filter({ wallItem ->

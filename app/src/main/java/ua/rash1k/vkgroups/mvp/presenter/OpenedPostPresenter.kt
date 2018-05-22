@@ -17,6 +17,7 @@ import ua.rash1k.vkgroups.models.view.OpenedPostRepostHeaderViewModel
 import ua.rash1k.vkgroups.mvp.view.OpenedPostView
 import ua.rash1k.vkgroups.rest.api.WallApi
 import ua.rash1k.vkgroups.rest.model.request.WallGetByIdRequestModel
+import java.util.*
 import java.util.concurrent.Callable
 import javax.inject.Inject
 
@@ -28,43 +29,48 @@ class OpenedPostPresenter : BaseFeedPresenter<OpenedPostView>() {
     var id: Int = 0
 
     @Inject
-    lateinit var wallApi: WallApi
+    lateinit var mWallApi: WallApi
 
+    val TAG = "OpenedPostPresenter"
 
     init {
         MyApplication.sApplicationComponent.inject(this)
     }
 
     override fun onCreateLoadDataObservable(count: Int, offset: Int): Observable<BaseViewModel> {
-        return wallApi.getById(WallGetByIdRequestModel(ApiConstants.MY_GROUP_ID, id).toMap())
-
-                .flatMap { full -> Observable.fromIterable(getWallList(full.response!!)) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { wallItem ->
-                    val newsItemFooterViewModel = NewsItemFooterViewModel(wallItem)
-                    viewState.setFooter(newsItemFooterViewModel)
+        return mWallApi.getWallById(WallGetByIdRequestModel(ApiConstants.MY_GROUP_ID, id).toMap())
+                .flatMap { full ->
+                    Observable.fromIterable(getWallList(full.response!!))
                 }
-                .subscribeOn(Schedulers.io())
+
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext({ wallItem ->
+                    val newsItemFooterViewModel = NewsItemFooterViewModel(wallItem)
+
+                    viewState.setFooter(newsItemFooterViewModel)
+                })
+
+                .observeOn(Schedulers.io())
                 .doOnNext(::saveToDb)
                 .flatMap { wallItem ->
-                    val list = arrayListOf<BaseViewModel>()
-                    val forwardedList = arrayListOf<BaseViewModel>()
+                    val list = ArrayList<BaseViewModel>()
+                    val forwardedList = ArrayList<BaseViewModel>()
 
                     list.add(OpenedPostHeaderViewModel(wallItem))
-                    forwardedList.addAll(getAttachmentViewModelItems(wallItem.attachments))
-//                    list.add(NewsItemFooterViewModel(wallItem))
 
+                    list.addAll(getAttachmentViewModelItems(wallItem.attachments))
                     if (wallItem.haveSharedRepost()) {
-                        forwardedList.add(OpenedPostRepostHeaderViewModel(wallItem))
-                        forwardedList.addAll(getAttachmentViewModelItems(wallItem.getSharedRepost()?.attachments!!))
 
+                        forwardedList.add(OpenedPostRepostHeaderViewModel(wallItem.getSharedRepost()!!))
+                        forwardedList.addAll(getAttachmentViewModelItems(wallItem.getSharedRepost()?.attachments!!))
                     }
                     Observable.fromIterable(list).concatWith(Observable.fromIterable(forwardedList))
                 }
-//                .createDataObservable()
     }
 
+
     override fun onCreateRestoreDataObservable(): Observable<BaseViewModel> {
+
         return Observable.fromCallable(getListFromRealmCallable())
 
                 .createDataObservable()
@@ -94,7 +100,7 @@ class OpenedPostPresenter : BaseFeedPresenter<OpenedPostView>() {
                     val forwardedList = arrayListOf<BaseViewModel>()
 
                     list.add(OpenedPostHeaderViewModel(wallItem))
-                    forwardedList.addAll(getAttachmentViewModelItems(wallItem.attachments))
+                    list.addAll(getAttachmentViewModelItems(wallItem.attachments))
 
                     if (wallItem.haveSharedRepost()) {
                         forwardedList.add(OpenedPostRepostHeaderViewModel(wallItem))

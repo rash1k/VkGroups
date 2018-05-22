@@ -27,7 +27,7 @@ open class Link : RealmObject(), Attachment {
     @Expose
      var description: String = ""
 
-    @SerializedName("photo")
+    @SerializedName("photoUrl")
     @Expose
      var photo: Photo? =null
 

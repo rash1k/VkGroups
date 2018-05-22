@@ -1,9 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
-
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -15,11 +14,14 @@ android {
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
 //            crunchPngs false
         }
     }
@@ -49,6 +51,7 @@ android {
     realm {
         syncEnabled = true
     }
+
 
 }
 dependencies {
@@ -90,6 +93,8 @@ dependencies {
 
     // if you use the support libraries
 //    annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:support-vector-drawable:27.1.1'
     kapt 'com.google.dagger:dagger-android-processor:2.15'
 
     //Kapt For compiler Annotation
@@ -102,6 +107,7 @@ dependencies {
 
     //Glide for download image
     implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 
     //Moxy
     implementation 'com.arello-mobile:moxy:1.5.3'
@@ -112,8 +118,21 @@ dependencies {
     //If you are using kotlin, use kapt instead of provided/apt dependency type and set generateStubs property of kapt to true:
     kapt 'com.arello-mobile:moxy-compiler:1.5.3'
 
+    //Android-FilePicker
+    implementation 'com.droidninja:filepicker:2.1.5'
+
+//    implementation 'com.android.support:multidex:1.0.3'
+
+    //Firebase-Messaging
+    implementation 'com.google.firebase:firebase-messaging:15.0.2'
+    implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
+    implementation 'com.google.gms:google-services:3.3.1'
     //Test SDK
     //    testImplementation 'junit:junit:4.12'
     //    androidTestImplementation 'com.android.support.test:runner:1.0.1'
     //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+
+
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,5 +1,6 @@
 package ua.rash1k.vkgroups.ui.view.holder.attachment
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,6 +20,8 @@ import javax.inject.Inject
 
 class VideoAttachmentViewHolder(view: View) : BaseViewHolder<VideoAttachmentViewModel>(view) {
 
+    val TAG = "VideoAttachmentView"
+
     val mVideoTitle = view.tv_attachment_video_title
 
     val mVideoImage: ImageView = view.iv_attachment_video_picture
@@ -37,9 +40,13 @@ class VideoAttachmentViewHolder(view: View) : BaseViewHolder<VideoAttachmentView
     override fun bindViewHolder(itemModel: VideoAttachmentViewModel) {
         itemView.setOnClickListener {
             mVideoApi.get(VideoGetRequestModel(itemModel.ownerId, itemModel.id).toMap())
-                    .flatMap { full -> Observable.fromIterable(full.response?.items) }
-                    .observeOn(Schedulers.io())
-                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .flatMap { full ->
+                        Log.d(TAG, "count: " + full.response?.count)
+                        Log.d(TAG, "url: " + full.response?.items!![0].files?.linkToFile)
+                        Observable.fromIterable(full.response?.items)
+                    }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { video ->
 
                         val url: String = video?.files?.linkToFile ?: video.player ?: ""
@@ -61,7 +68,12 @@ class VideoAttachmentViewHolder(view: View) : BaseViewHolder<VideoAttachmentView
     }
 
     override fun unbindViewHolder() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        itemView.setOnClickListener(null)
+
+        mVideoTitle.text = null
+        mViewsCount.text = null
+        mDuration.text = null
+        mVideoImage.setImageBitmap(null)
     }
 
 }

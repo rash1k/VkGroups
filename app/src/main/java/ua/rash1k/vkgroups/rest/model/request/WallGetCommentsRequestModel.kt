@@ -18,7 +18,7 @@ class WallGetCommentsRequestModel(@SerializedName(VKApiConst.OWNER_ID)
                                   var count: Int = ApiConstants.DEFAULT_COUNT,
 
                                   @SerializedName(VKApiConst.OFFSET)
-                                  var offset: Int = 0,
+                                  var offset: Int,
 
                                   @SerializedName(VKApiConst.EXTENDED)
                                   private val extended: Int = 1) : BaseRequestModel() {

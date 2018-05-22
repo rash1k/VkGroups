@@ -57,4 +57,9 @@ class RestModule {
         return restClient.createService(context, VideoApi::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideAccountApi(context: Application): AccountApi {
+        return restClient.createService(context, AccountApi::class.java)
+    }
 }

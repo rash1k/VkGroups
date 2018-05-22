@@ -22,7 +22,7 @@ interface WallApi {
     fun get(@QueryMap() map: HashMap<String, String>): Observable<GetWallResponse>
 
     @GET(WALL_GET_BY_ID)
-    fun getById(@QueryMap() map: HashMap<String, String>): Observable<GetWallByIdResponse>
+    fun getWallById(@QueryMap() map: HashMap<String, String>): Observable<GetWallByIdResponse>
 
 
     @GET(WALL_GET_COMMENTS)

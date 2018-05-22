@@ -14,7 +14,8 @@ class GroupsGetByIdRequestModel(groupId: String,
 
     var groupId: String = groupId
         set(value) :Unit {
-            if (groupId[0] !in 'a'..'z') {
+            if (groupId[0] !in 'a'..'z' && groupId[0] !in 'A'..'Z') {
+
                 field = Math.abs(value.toInt()).toString()
             }
         }

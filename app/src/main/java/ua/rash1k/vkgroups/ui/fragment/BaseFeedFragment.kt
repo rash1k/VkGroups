@@ -5,7 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
 import android.view.View
-import kotlinx.android.synthetic.main.activity_base.*
+import android.widget.ProgressBar
 import kotlinx.android.synthetic.main.fragment_feed.*
 import ua.rash1k.vkgroups.R
 import ua.rash1k.vkgroups.common.manager.MyLinearLayoutManager
@@ -18,6 +18,8 @@ import ua.rash1k.vkgroups.ui.adapter.BaseAdapter
 
 abstract class BaseFeedFragment : BaseFragment(), BaseFeedView {
 
+    val TAG = "BaseFeedFragment"
+
     protected lateinit var mRecyclerView: RecyclerView
 
     protected lateinit var mBaseAdapter: BaseAdapter
@@ -25,6 +27,8 @@ abstract class BaseFeedFragment : BaseFragment(), BaseFeedView {
     protected lateinit var mSwipeRefLayout: SwipeRefreshLayout
 
     protected lateinit var mBaseFeedPresenter: BaseFeedPresenter<BaseFeedView>
+
+    protected lateinit var mProgressBar: ProgressBar
 
     abstract fun onCreateFeedPresenter(): BaseFeedPresenter<BaseFeedView>
 
@@ -62,13 +66,13 @@ abstract class BaseFeedFragment : BaseFragment(), BaseFeedView {
         //Для обновления данных при свайпе вниз
         mSwipeRefLayout.setOnRefreshListener { mBaseFeedPresenter.loadRefresh() }
 
+        mProgressBar = getBaseActivity().mProgressBar
     }
 
     private fun setUpRecyclerView(rootView: View) {
         mRecyclerView = rootView.findViewById(R.id.recycler_view_list)
         //Добавляем кастомный менеджер который проверяет нужно ли загружать новые элементы
         //и скроллистенер, который слушает список и оповещает когда он скролится
-
         val myLinearLayoutManager = MyLinearLayoutManager(getBaseActivity())
         mRecyclerView.layoutManager = myLinearLayoutManager
 
@@ -77,6 +81,9 @@ abstract class BaseFeedFragment : BaseFragment(), BaseFeedView {
 
                 override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                     if (myLinearLayoutManager.isOnNextPagePosition()) {
+//                        Log.d(TAG, "visibleItemCount: " + myLinearLayoutManager.getChildCount())
+//                        Log.d(TAG, "totalItemCount: " + myLinearLayoutManager.getItemCount())
+//                        Log.d(TAG, "pastVisibleItems: " + myLinearLayoutManager.findFirstVisibleItemPosition())
                         mBaseFeedPresenter.loadNext(mBaseAdapter.getRealItemCount())
                     }
                 }
@@ -100,12 +107,11 @@ abstract class BaseFeedFragment : BaseFragment(), BaseFeedView {
     }
 
     override fun showListProgress() {
-        activity?.progressBar?.visibility = View.VISIBLE
+        mProgressBar.visibility = View.VISIBLE
     }
 
     override fun hideListProgress() {
-        activity?.progressBar?.visibility = View.GONE
-
+        mProgressBar.visibility = View.GONE
     }
 
     override fun showError(messageError: String) {

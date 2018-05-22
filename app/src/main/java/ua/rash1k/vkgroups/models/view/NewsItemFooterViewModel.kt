@@ -15,7 +15,7 @@ class NewsItemFooterViewModel(wallItem: WallItem) : BaseViewModel() {
     val mOwnerId = wallItem.ownerId
     val mCommentsCounterViewModel: CommentCounterViewModel = CommentCounterViewModel(wallItem.comments!!)
     val mRepostCounterViewModel: RepostCounterViewModel = RepostCounterViewModel(wallItem.reposts!!)
-    val mLikeCounterViewModel: LikeCounterViewModel = LikeCounterViewModel(wallItem.likes!!)
+    var mLikeCounterViewModel: LikeCounterViewModel = LikeCounterViewModel(wallItem.likes!!)
     val mDataLong = wallItem.date
 
     override fun getTypeIdLayout(): LayoutTypes {

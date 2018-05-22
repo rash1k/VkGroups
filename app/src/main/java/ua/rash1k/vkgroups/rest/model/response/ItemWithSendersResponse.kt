@@ -9,6 +9,7 @@ import ua.rash1k.vkgroups.models.Profile
 //Он нужен для того чтобы парсить не только items, но и такие поля как profiles и groups.
 class ItemWithSendersResponse<T> : BaseItemResponse<T>() {
 
+
     @SerializedName("profiles")
     var profiles: List<Profile> = arrayListOf()
     @SerializedName("groups")

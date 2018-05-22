@@ -14,6 +14,7 @@ import ua.rash1k.vkgroups.ui.activity.BaseActivity
 //Этот класс выполянет роль в View в библиотеке Moxy и привязывает своё состояние(State) к Presenter
 abstract class BaseFragment : MvpAppCompatFragment() {
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getMainContentLayout(), container, false)
     }
@@ -34,4 +35,7 @@ abstract class BaseFragment : MvpAppCompatFragment() {
     fun getBaseActivity(): BaseActivity {
         return activity as BaseActivity
     }
+
+    open fun needFab(): Boolean = false
+
 }

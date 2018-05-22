@@ -29,10 +29,10 @@ open  class Member(profile: Profile? = null) : RealmObject() {
 
 
     @SerializedName(FIRST_NAME)
-    lateinit var firstName: String
+    var firstName: String
 
     @SerializedName(LAST_NAME)
-    lateinit var lastName: String
+    var lastName: String
 
     init {
         id = profile?.id ?: 0

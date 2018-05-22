@@ -10,6 +10,10 @@ open class Place(var ownerId: String = "",
                  var postId: String = "") : RealmObject() {
 
 
+    companion object {
+        val PLACE = "place"
+    }
+
     constructor(source: String) : this() {
         val placeId: List<String> = splitStringForIdAndOwnerId(source)
         ownerId = placeId[0]
@@ -40,5 +44,11 @@ open class Place(var ownerId: String = "",
         if (o !is Place) return false
         val other = o as Place?
         return other!!.ownerId == ownerId && other.postId == postId
+    }
+
+    override fun hashCode(): Int {
+        var result = ownerId.hashCode()
+        result = 31 * result + postId.hashCode()
+        return result
     }
 }

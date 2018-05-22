@@ -1,14 +1,15 @@
 package ua.rash1k.vkgroups.common.utils
 
+import com.vk.sdk.api.VKResponse
 import com.vk.sdk.api.model.VKAttachments
-import ua.rash1k.vkgroups.models.CommentItem
-import ua.rash1k.vkgroups.models.News
-import ua.rash1k.vkgroups.models.Response
-import ua.rash1k.vkgroups.models.WallItem
+import org.json.JSONArray
+import ua.rash1k.vkgroups.models.*
 import ua.rash1k.vkgroups.models.attachment.ApiAttachment
 import ua.rash1k.vkgroups.models.view.BaseViewModel
 import ua.rash1k.vkgroups.models.view.attachment.*
 import ua.rash1k.vkgroups.rest.model.response.ItemWithSendersResponse
+import java.util.ArrayList
+import kotlin.NoSuchElementException
 
 const val TAG = "VkListHelper"
 //Будет заполнять поля senderName и senderPhoto для отправителя записи,
@@ -55,11 +56,9 @@ fun getNewsList(response: Response): List<News> {
         news.senderName = sender.getFullName()
         news.senderPhoto = sender.getPhoto()
 
-//        news.contentPhoto = news.getPhoto()
 
         news.signerName = response.getSignedFullName(news.signerId, news.type)
 
-//        news.attachmentsString = convertAttachmentsToFontIcons(news.attachments)
 
         val haveSharedRepost = news.haveSharedRepost()
         val newsItemRepost = news.getSharedRepost()
@@ -71,7 +70,6 @@ fun getNewsList(response: Response): List<News> {
             newsItemRepost.senderPhoto = repostsSender.getPhoto()
 
             newsItemRepost.signerName = response.getSignedFullName(newsItemRepost.signerId, newsItemRepost.type)
-//            newsItemRepost.attachmentsString = convertAttachmentsToFontIcons(newsItemRepost.attachments)
         }
 
     }
@@ -117,6 +115,12 @@ fun getAttachmentViewModelItems(attachments: List<ApiAttachment>): List<BaseView
                     attachmentsViewModelItems.add(PageAttachmentViewModel(attachment.page!!))
             }
 
+            VKAttachments.TYPE_VIDEO -> {
+                if (attachment.video != null) {
+                    attachmentsViewModelItems.add(VideoAttachmentViewModel(attachment.video!!))
+                }
+            }
+
             else -> throw NoSuchElementException("Attachment type ${attachment.type} is not supported")
         }
     }
@@ -136,12 +140,43 @@ fun getCommentList(response: ItemWithSendersResponse<CommentItem>, isFromTopic: 
         commentItem.attachmentsString = convertAttachmentsToFontIcons(commentItem.attachments)
         commentItem.isFromTopic = isFromTopic
     }
-        return commentItems
+    return commentItems
 }
 
 
+fun getGroupsList(response: VKResponse): List<Group> {
 
+    val responseObject = response.json.getJSONObject("response")
+    val count = responseObject.getInt("count")
+    val listGroup = ArrayList<Group>(count)
 
+    val items: JSONArray = responseObject.getJSONArray("items")
+
+    var group: Group
+
+    var id: Int
+    var name: String
+    var screenName: String
+    var photo100: String
+
+    for (i in 0 until items.length()) {
+        group = Group()
+        val obj = items.getJSONObject(i)
+        id = obj.getInt("id")
+        name = obj.getString("name")
+        screenName = obj.getString("screen_name")
+        photo100 = obj.getString("photo_100")
+
+        group.id = id
+        group.name = name
+        group.screenName = screenName
+        group.photo100 = photo100
+
+        listGroup.add(group)
+    }
+
+    return listGroup
+}
 
 
 

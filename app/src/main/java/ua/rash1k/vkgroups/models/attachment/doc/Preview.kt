@@ -7,7 +7,7 @@ import ua.rash1k.vkgroups.models.attachment.video.Video
 
 open class Preview :RealmObject() {
 
-    @SerializedName("photo")
+    @SerializedName("photoUrl")
      var photo:PhotoPreview? = null
 
     @SerializedName("video")

@@ -51,11 +51,11 @@ class OpenedPostHeaderViewModel : BaseViewModel {
     }
 
     override fun onCreateViewHolder(view: View): BaseViewHolder<BaseViewModel> {
-        return OpenedPostViewHolder(view) as BaseViewHolder<BaseViewModel>
+        return OpenedPostHeaderHolder(view) as BaseViewHolder<BaseViewModel>
     }
 
 
-    class OpenedPostViewHolder(view: View) : BaseViewHolder<OpenedPostHeaderViewModel>(view) {
+    class OpenedPostHeaderHolder(view: View) : BaseViewHolder<OpenedPostHeaderViewModel>(view) {
 
         @Inject
         lateinit var uiHelper: UiHelper
@@ -75,6 +75,7 @@ class OpenedPostHeaderViewModel : BaseViewModel {
             tvProfileName.text = itemModel.mProfileName
 
             uiHelper.setUpTextViewWithVisibility(tvText, itemModel.mText)
+//            tvText.text = itemModel.mText
         }
 
         override fun unbindViewHolder() {

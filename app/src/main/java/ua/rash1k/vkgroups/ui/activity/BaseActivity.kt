@@ -1,7 +1,9 @@
 package ua.rash1k.vkgroups.ui.activity
 
+
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.widget.ProgressBar
 import com.arellomobile.mvp.MvpAppCompatActivity
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
@@ -11,17 +13,16 @@ import ua.rash1k.vkgroups.common.manager.MyFragmentManager
 import ua.rash1k.vkgroups.ui.fragment.BaseFragment
 import javax.inject.Inject
 
-
 abstract class BaseActivity : MvpAppCompatActivity() {
 
-    private val TAG = BaseActivity::class.java.name
+    internal open val TAG = BaseActivity::class.java.name
 
     //Выступает в роли делегата
     //Dagger будет брать инициализацию из пакета module
     @Inject
     lateinit var myFragmentManager: MyFragmentManager
 
-//    val mPogressBar: ProgressBar = progressBar
+    lateinit var mProgressBar: ProgressBar
 //   private val mToolBar: Toolbar = toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +31,8 @@ abstract class BaseActivity : MvpAppCompatActivity() {
         setSupportActionBar(toolbar)
 
         MyApplication.sApplicationComponent.inject(this)
-//        progressBar = progress
+        mProgressBar = findViewById(R.id.progressBar)
+
 //        myFragmentManager = MyFragmentManager()
 
         //Инфлейтим метод который будут переопределять в дочерних классах
@@ -50,12 +52,18 @@ abstract class BaseActivity : MvpAppCompatActivity() {
     fun fragmentOnScreen(fragment: BaseFragment?) {
         if (fragment != null) {
             setToolbarTitle(fragment.createToolbarTitle(this))
+            setupFabVisibility(fragment.needFab())
         }
     }
 
     //Метод установки title Toolbar
     private fun setToolbarTitle(title: String) {
         supportActionBar?.title = title
+    }
+
+    private fun setupFabVisibility(needFab: Boolean) {
+        if (fab == null) return
+        if (needFab) fab.show() else fab.hide()
     }
 
     //Установка корневого фрагмента
@@ -67,7 +75,7 @@ abstract class BaseActivity : MvpAppCompatActivity() {
         myFragmentManager.addFragment(this, baseFragment, R.id.main_wrapper)
     }
 
-   private fun removeCurrentFragment(): Boolean {
+    private fun removeCurrentFragment(): Boolean {
         return myFragmentManager.removeCurrentFragment(this)
     }
 

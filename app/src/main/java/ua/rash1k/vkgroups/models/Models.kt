@@ -12,37 +12,39 @@ import ua.rash1k.vkgroups.models.countable.Reposts
 
 open class Group : RealmObject(), Owner {
 
+    internal var subscribeCount = 0
+
     @SerializedName("id")
     @PrimaryKey
     internal var id: Int = 0//86529522
     @SerializedName("name")
-    lateinit var name: String //VK Fest
+    var name: String = "" //VK Fest
     @SerializedName("screen_name")
-    lateinit var screenName: String //fest
+    var screenName: String = "" //fest
     @SerializedName("is_closed")
     var isClosed: Int = 0//0
     @SerializedName("type")
-    lateinit var type: String //event
+    var type: String = "" //event
     @SerializedName("is_admin")
     var isAdmin: Int = 0 //0
     @SerializedName("is_member")
     var isMember: Int = 0//0
     @SerializedName("photo_50")
-    lateinit var photo50: String //https://pp.userap...6d0/VogboWaykYA.jpg
+    var photo50: String = "" //https://pp.userap...6d0/VogboWaykYA.jpg
     @SerializedName("photo_100")
-    var photo100: String? = null //https://pp.userap...6cf/B7yTl3PtpoE.jpg
+    var photo100: String = ""//https://pp.userap...6cf/B7yTl3PtpoE.jpg
     @SerializedName("photo_200")
-    lateinit var photo200: String //https://pp.userap...6ce/k4CKjWl2znY.jpg
+    var photo200: String = "" //https://pp.userap...6ce/k4CKjWl2znY.jpg
 
 
     @SerializedName("status")
-    lateinit var status: String
+    var status: String = ""
 
     @SerializedName("description")
-    lateinit var description: String
+    var description: String = ""
 
     @SerializedName("site")
-    lateinit var site: String
+    var site: String = ""
 
     @SerializedName("links")
     var links: RealmList<Link> = RealmList()
@@ -86,6 +88,8 @@ open class Profile : RealmObject(), Owner {
     @SerializedName("hidden")
     var hidden: Int = 0
 
+
+    var isContact: Boolean = false
 
     var isGroup: Boolean = false
 

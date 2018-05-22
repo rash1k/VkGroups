@@ -25,8 +25,8 @@ class MyLinearLayoutManager : LinearLayoutManager {
     fun isOnNextPagePosition(): Boolean {
         val visibleItemCount = childCount
         val totalItemCount = itemCount
-        val pastVisibleItems = findFirstVisibleItemPosition()
+        val firstVisibleItems = findFirstVisibleItemPosition()
 
-        return (visibleItemCount + pastVisibleItems) >= totalItemCount / 2
+        return (visibleItemCount + firstVisibleItems) >= totalItemCount / 2
     }
 }

@@ -1,8 +1,8 @@
 package ua.rash1k.vkgroups
 
-import android.app.Application
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.support.multidex.MultiDexApplication
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
@@ -18,7 +18,7 @@ import ua.rash1k.vkgroups.di.component.DaggerApplicationComponent
 import ua.rash1k.vkgroups.di.module.AppModule
 
 
-class MyApplication : Application() {
+class MyApplication : MultiDexApplication() {
 
     var vkAccessTokenTracker: VKAccessTokenTracker = object : VKAccessTokenTracker() {
         override fun onVKAccessTokenChanged(oldToken: VKAccessToken?, newToken: VKAccessToken?) {

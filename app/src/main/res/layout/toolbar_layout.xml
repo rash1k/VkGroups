@@ -13,7 +13,7 @@
         android:layout_height="@dimen/toolbar_size"
         android:background="@color/colorPrimary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Toolbar"
+        app:title=""
         app:titleTextColor="@color/colorDefaultWhite">
     </android.support.v7.widget.Toolbar>
 

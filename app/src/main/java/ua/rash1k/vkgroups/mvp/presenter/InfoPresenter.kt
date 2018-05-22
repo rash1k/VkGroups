@@ -23,6 +23,7 @@ import javax.inject.Inject
 class InfoPresenter : BaseFeedPresenter<BaseFeedView>() {
 
      val TAG = "InfoPresenter"
+
     @Inject
     lateinit var mGroupAPi: GroupsApi
 

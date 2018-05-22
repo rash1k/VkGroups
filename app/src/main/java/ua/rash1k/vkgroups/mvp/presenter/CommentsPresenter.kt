@@ -35,7 +35,7 @@ class CommentsPresenter : BaseFeedPresenter<BaseFeedView>() {
 
     override fun onCreateLoadDataObservable(count: Int, offset: Int): Observable<BaseViewModel> {
         return mWallApi.getComments(WallGetCommentsRequestModel(
-                Integer.parseInt(mPlace.ownerId), Integer.parseInt(mPlace.postId), offset).toMap())
+                mPlace.ownerId.toInt(), mPlace.postId.toInt(), offset = offset).toMap())
                 .flatMap { full ->
                     Observable.fromIterable(getCommentList(full.response!!))
                 }
@@ -75,10 +75,5 @@ class CommentsPresenter : BaseFeedPresenter<BaseFeedView>() {
         baseItems.add(CommentBodyViewModel(commentItem))
         baseItems.add(CommentFooterViewModel(commentItem))
         return baseItems
-    }
-
-
-    fun setPlace(place: Place) {
-        this.mPlace = place
     }
 }

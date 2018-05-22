@@ -1,6 +1,7 @@
 package ua.rash1k.vkgroups.rest.model.request
 
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.VKApiConst
 import ua.rash1k.vkgroups.consts.ApiConstants
 
 
@@ -10,12 +11,8 @@ class VideoGetRequestModel(@SerializedName("owner_id")
 
 
     @SerializedName("videos")
-    var videos: String = initVideos(ownerId, videoId)
+    private var videos: String = "${ownerId}_$videoId"
 
-
-    constructor(ownerId: String, videoId: Int) : this() {
-        this.videos = ownerId + videoId
-    }
 
     constructor(videos: String) : this() {
         this.videos = videos
@@ -23,12 +20,7 @@ class VideoGetRequestModel(@SerializedName("owner_id")
 
 
     override fun onMapCreate(map: HashMap<String, String>) {
+        map[VKApiConst.OWNER_ID] = ownerId.toString()
         map[ApiConstants.VIDEOS] = videos
-    }
-
-    private fun initVideos(ownerId: Int, videoId: Int): String {
-        return if (ownerId.toString().startsWith("-", false)) {
-            "-${ownerId}_$videoId"
-        } else "${ownerId}_$videoId"
     }
 }

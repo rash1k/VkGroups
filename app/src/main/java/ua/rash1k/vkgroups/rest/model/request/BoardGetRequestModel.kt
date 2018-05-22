@@ -22,7 +22,6 @@ class BoardGetRequestModel(groupId: Int,
 
 
     override fun onMapCreate(map: HashMap<String, String>) {
-//        map[VKApiConst.GROUP_ID] = groupId.toString()
         map[VKApiConst.GROUP_ID] = groupId.toString()
         map[VKApiConst.OFFSET] = offset.toString()
         map[VKApiConst.COUNT] = count.toString()

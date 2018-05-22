@@ -20,7 +20,7 @@ class OpenedPostFragment : BaseFeedFragment(), OpenedPostView {
     @InjectPresenter
     lateinit var mPresenter: OpenedPostPresenter
 
-    var _id: Int = 0
+    private var idPost: Int = 0
 
 
     companion object {
@@ -40,7 +40,7 @@ class OpenedPostFragment : BaseFeedFragment(), OpenedPostView {
         isWithEndlessList = false
 
         if (arguments != null) {
-            _id = arguments!!.getInt("id")
+            idPost = arguments!!.getInt("id")
         }
     }
 
@@ -51,7 +51,7 @@ class OpenedPostFragment : BaseFeedFragment(), OpenedPostView {
 
 
     override fun onCreateFeedPresenter(): BaseFeedPresenter<BaseFeedView> {
-        mPresenter.id = _id
+        mPresenter.id = idPost
         return mPresenter as BaseFeedPresenter<BaseFeedView>
     }
 

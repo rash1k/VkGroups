@@ -24,7 +24,7 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<BaseViewModel>>() {
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<BaseViewModel>, position: Int) {
-        val itemModel: BaseViewModel = getItem(position)
+        val itemModel: BaseViewModel = getItemByPosition(position)
         holder.bindViewHolder(itemModel)
     }
 
@@ -36,12 +36,9 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<BaseViewModel>>() {
 
     //Возвращает тип View item
     override fun getItemViewType(position: Int): Int {
-        return getItem(position).getTypeIdLayout().idLayout
+        return getItemByPosition(position).getTypeIdLayout().idLayout
     }
 
-
-    //Возвращает item BaseViewModel by position
-    private fun getItem(position: Int): BaseViewModel = list[position]
 
     override fun getItemCount(): Int {
         return list.size
@@ -54,12 +51,22 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<BaseViewModel>>() {
         }
     }
 
+    //Возвращает item BaseViewModel by position
+    private fun getItemByPosition(position: Int): BaseViewModel = list[position]
+
     internal fun addItems(newItems: List<BaseViewModel>) {
         newItems.forEach { registerTypeInstance(it) }
 
         list.addAll(newItems)
 
         notifyDataSetChanged()
+    }
+
+    internal fun insertItem(newItems: BaseViewModel) {
+        registerTypeInstance(newItems)
+        list.add(newItems)
+
+        notifyItemInserted(itemCount - 1)
     }
 
     //Метод для замены элементов в списке
@@ -72,12 +79,21 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<BaseViewModel>>() {
     //Будет переберать все элементы списка
     //проверять является ли элемент реальным и возвращать реальное кол. элементов
     fun getRealItemCount(): Int {
-        var countResult = 0
+        var count = 0
+//        var item = 0
         for (position in 0 until itemCount) {
-            if (!getItem(position).isItemDecoration()) {
-                countResult += 1
+            if (!getItemByPosition(position).isItemDecoration()) {
+                count += 1
             }
         }
-        return countResult
+
+        /* while (item < itemCount) {
+             if (!getItemByPosition(item).isItemDecoration()) {
+                 count += 1
+             }
+             ++item
+         }*/
+
+        return count
     }
 }

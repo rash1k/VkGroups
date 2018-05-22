@@ -51,7 +51,6 @@ class CommentBodyViewModel(commentItem: CommentItem) : BaseViewModel() {
 
         var tvText: TextView = itemView.tv_text
 
-
         var tvAttachments: TextView = itemView.tv_attachments
 
         init {
